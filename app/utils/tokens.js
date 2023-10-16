@@ -1,7 +1,7 @@
 export const tokens = [
   {
     name: "",
-    icon: ""
+    icon: "_"
   },
   {
     name: "X",
