@@ -11,9 +11,11 @@ export default function Game() {
   const emptyBoard = [...Array(9)].map((token) => token = tokens[0])
   const [board, setBoard] = useState(emptyBoard)
   const newBoard = [...board]
+  const [turnCount, setTurnCount] = useState(0)
+  const turn = turnCount % 2 == 1 ? "player2" : "player1"
 
-  const [token1, setToken1] = useState(tokens[1]);
-  const [token2, setToken2] = useState(tokens[2]);
+  const [token1, setToken1] = useState(tokens[1])
+  const [token2, setToken2] = useState(tokens[2])
 
   function handleToken1Select(event) {
     setToken1(tokens.find((token) => token.name === event.target.value));
@@ -23,7 +25,15 @@ export default function Game() {
   }
 
   function handleAddToken(index) {
-    newBoard.splice([index], 1, token1)
+    if (turn == "player1") {
+      newBoard.splice([index], 1, token1)
+      if(turnCount < 9) setTurnCount(turnCount + 1)
+    } else if (turn === "player2") {
+      newBoard.splice([index], 1, token2)
+      if(turnCount < 9) setTurnCount(turnCount + 1)
+    } else {
+      newBoard.splice([index], 1, tokens[0])
+    }
     setBoard(newBoard)
   }
 
