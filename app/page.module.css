@@ -9,21 +9,42 @@
 }
 
 .board {
-  width: calc(100vh - 12rem);
-  height: calc(100vh - 12rem);
+  /* width: calc(100vh - 12rem);
+  height: calc(100vh - 12rem); */
+  gap: 0.5rem;
+  /* padding: 0;
+  margin: 0; */
+  /* width: 100%;
+  height: 100%; */
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 0;
 }
 
 .tile {
   cursor: pointer;
-  /* display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #333; */
+  /* background-color: #333; */
+  /* min-width: 100px;
+  min-height: 100px; */
+  /* min-width: fit-content;
+  min-height: fit-content; */
+  /* width: fit-content;
+  height: fit-content; */
+  width: 200px;
+  height: 200px;
 }
 
 .token {
-  font-size: 14vh;
-  position: absolute;
+  /* font-size: 14vh; */
+  font-size: 8rem;
+  /* position: absolute; */
+  /* padding: 0 2rem; */
+  margin: 0;
 }
 
 .token_color_clip {
@@ -84,13 +105,13 @@
 
 @media (orientation: portrait) {
   .board {
-    width: 100vw;
-    height: 100vw;
+    /* width: 100vw;
+    height: 100vw; */
   }
 
-  .token {
+  /* .token {
     font-size: 14vw;
-  }
+  } */
 }
 
 /* Enable hover only on non-touch devices */
@@ -117,6 +138,15 @@
     width: 100vw;
     height: 100vw;
   } */
+
+  .tile {
+    width: 30vw;
+    height: 30vw;
+  }
+
+  .token {
+    font-size: 20vw;
+  }
   
   .content {
     padding: 4rem;
@@ -144,52 +174,6 @@
   .center::before {
     transform: none;
     height: 300px;
-  }
-
-  .description {
-    font-size: 0.8rem;
-  }
-
-  .description a {
-    padding: 1rem;
-  }
-
-  .description p,
-  .description div {
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    width: 100%;
-  }
-
-  .description p {
-    align-items: center;
-    inset: 0 0 auto;
-    padding: 2rem 1rem 1.4rem;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--background-start-rgb), 1),
-      rgba(var(--callout-rgb), 0.5)
-    );
-    background-clip: padding-box;
-    backdrop-filter: blur(24px);
-  }
-
-  .description div {
-    align-items: flex-end;
-    pointer-events: none;
-    inset: auto 0 0;
-    padding: 2rem;
-    height: 200px;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgb(var(--background-end-rgb)) 40%
-    );
-    z-index: 1;
   }
 }
 
