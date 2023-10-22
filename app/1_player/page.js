@@ -6,7 +6,7 @@ import styles from '../page.module.css'
 
 import { tokens } from '../utils/tokens'
 
-import { AppBar, Box, Card, CardContent, FormControl, Grid, InputLabel, MenuItem, Select, Stack, Toolbar } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material'
 
 export default function Home() {
   const [token1, setToken1] = useState({ name: "X", icon: "❌" });
@@ -20,9 +20,23 @@ export default function Home() {
     setToken2(tokens.find((token) => token.name === event.target.value));
   }
 
+  const emptyBoard = [...Array(9)].map((token) => token = tokens[0])
+  const [board, setBoard] = useState(emptyBoard)
+  const newBoard = [...board]
+
+  function handleAddToken(index) {
+    newBoard.splice([index], 1, token1)
+    setBoard(newBoard)
+  }
+
   return (
     <main className={styles.main}>
-      <Stack spacing={2} direction='row' width='100%' sx={{ mb: 2 }}>
+      <Stack
+        spacing={2}
+        direction='row'
+        width='200px'
+        sx={{ mb: 2, textAlign: 'center' }}
+      >
         <FormControl fullWidth>
           <InputLabel id="token-1-select-label">Player 1</InputLabel>
           <Select
@@ -34,7 +48,11 @@ export default function Home() {
               <MenuItem
                 key={`1_${token.name}`}
                 value={token.name}
-                sx={{ display: token.icon === 'ㅤ' ? 'none' : '' }}
+                sx={{
+                  display: token.icon === 'ㅤ' ? 'none' : '', 
+                  justifyContent: 'center' 
+                }}
+                disabled={token.name === token2.name}
               >
                 {token.icon}
               </MenuItem>
@@ -53,7 +71,11 @@ export default function Home() {
               <MenuItem
                 key={`1_${token.name}`}
                 value={token.name}
-                sx={{ display: token.icon === 'ㅤ' ? 'none' : '' }}
+                sx={{
+                  display: token.icon === 'ㅤ' ? 'none' : '', 
+                  justifyContent: 'center' 
+                }}
+                disabled={token.name === token1.name}
               >
                 {token.icon}
               </MenuItem>
@@ -63,9 +85,11 @@ export default function Home() {
       </Stack>
 
       <Box className={styles.board}>
-        {[...Array(9)].map((_, index) => 
+        {newBoard.map((token, index) => 
           <Box
-          key={index}
+            key={index}
+            component={Button}
+            onClick={() => handleAddToken(index)}
             className={styles.tile}
             sx={{
               backgroundColor: 'primary.dark',
@@ -75,34 +99,10 @@ export default function Home() {
               }
             }}
           >
-            <p className={styles.token}>{tokens[0].icon}</p>
+            <p className={styles.token}>{token.icon}</p>
           </Box>
         )}
       </Box>
-
-      {/* <Grid container spacing={2} alignItems='stretch'>
-        {[...Array(9)].map((_, index) => 
-          <Grid
-            item
-            key={index}
-            xs={4}
-          >
-            <Box
-              className={styles.tile}
-              sx={{
-                color: token1.icon === '_' ? 'transparent' : 'inherit',
-                backgroundColor: 'primary.dark',
-                '&:hover': {
-                  backgroundColor: 'primary.main',
-                  opacity: [0.9, 0.8, 0.7],
-                }
-              }}
-            >
-              <p className={styles.token}>{token1.icon}</p>
-            </Box>
-          </Grid>
-        )}
-      </Grid> */}
     </main>
   )
 }
