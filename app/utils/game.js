@@ -7,6 +7,7 @@ import { tokens } from './tokens'
 import Board from '../components/board'
 import TokenSelect from '../components/tokenSelect'
 import Alert from '../components/alert'
+import Header from '../components/header'
 
 export default function Game() {
   const emptyBoard = [...Array(9)].map((token) => token = tokens[0])
@@ -99,13 +100,13 @@ export default function Game() {
     }
   }, [board, isOver, isWin, token1, token2])
 
-  // if(alert) console.log(alert)
   function handleAlertClose() {
     setAlert(null)
   }
 
   return (
     <>
+      <Header wins={wins} />
       <TokenSelect token1={token1} token2={token2} handleToken1Select={handleToken1Select} handleToken2Select={handleToken2Select} isOver={isOver} />
       <Board board={board} handleAddToken={handleAddToken} isOver={isOver} />
       <Alert alert={alert} handleAlertClose={handleAlertClose} isOver={isOver} />
