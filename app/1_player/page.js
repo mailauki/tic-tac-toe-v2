@@ -1,6 +1,6 @@
 import styles from '../page.module.css'
 
-import Game from '../components/game'
+import Game from '../utils/game'
 
 export default function Player1Game() {
   return (

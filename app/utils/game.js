@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react'
 
-import { tokens } from '../utils/tokens'
+import { tokens } from './tokens'
 
-import Board from './board'
-import TokenSelect from './tokenSelect'
+import Board from '../components/board'
+import TokenSelect from '../components/tokenSelect'
+import Alert from '../components/alert'
 
 export default function Game() {
   const emptyBoard = [...Array(9)].map((token) => token = tokens[0])
@@ -15,13 +16,10 @@ export default function Game() {
   const [token1, setToken1] = useState(tokens[1])
   const [token2, setToken2] = useState(tokens[2])
 
+  const [alert, setAlert] = useState(null)
+
   const [turnCount, setTurnCount] = useState(0)
   const turn = turnCount % 2 == 1 ? "player2" : "player1"
-
-  // tally number of wins
-  const [wins, setWins] = useState(0)
-  const [p1Wins, setP1Wins] = useState(0)
-  const [p2Wins, setP2Wins] = useState(0)
 
   const winCombos = [
     [0,1,2],  // Top row
@@ -33,6 +31,11 @@ export default function Game() {
     [2,4,6],  // Left diagonal
     [0,4,8]   // Right diagonal
   ]
+
+  // tally number of wins
+  const [wins, setWins] = useState(0)
+  const [p1Wins, setP1Wins] = useState(0)
+  const [p2Wins, setP2Wins] = useState(0)
 
   // array of indexes for each player
   const p1Array = board.reduce((a,e,i) => e === token1 ? a.concat(i) : a, [])
@@ -61,8 +64,9 @@ export default function Game() {
         setTurnCount(turnCount + 1)
       }
       setBoard(newBoard)
+      setAlert(null)
     } else {
-      alert("Can't move there!")
+      setAlert("Can't move there!")
     }
   }
 
@@ -81,21 +85,30 @@ export default function Game() {
     if(isOver) {
       const winningToken = isWin ? board[isWin[0]] : null
       if(winningToken === token1) {
-        alert("Congradulations Player 1 Wins!")
+        setAlert("Congradulations Player 1 Wins!")
       }
       else if(winningToken === token2) {
-        alert("Congradulations Player 2 Wins!")
+        setAlert("Congradulations Player 2 Wins!")
       }
       else {
-        alert("Cat's Game!")
+        setAlert("Cat's Game!")
       }
+    }
+    else {
+      setAlert(null)
     }
   }, [board, isOver, isWin, token1, token2])
 
+  // if(alert) console.log(alert)
+  function handleAlertClose() {
+    setAlert(null)
+  }
+
   return (
     <>
-      <TokenSelect token1={token1} token2={token2} handleToken1Select={handleToken1Select} handleToken2Select={handleToken2Select} />
+      <TokenSelect token1={token1} token2={token2} handleToken1Select={handleToken1Select} handleToken2Select={handleToken2Select} isOver={isOver} />
       <Board board={board} handleAddToken={handleAddToken} isOver={isOver} />
+      <Alert alert={alert} handleAlertClose={handleAlertClose} isOver={isOver} />
     </>
   )
 }

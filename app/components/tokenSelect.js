@@ -2,7 +2,7 @@ import { tokens } from '../utils/tokens'
 
 import { FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material'
 
-export default function TokenSelect({ token1, token2, handleToken1Select, handleToken2Select }) {
+export default function TokenSelect({ token1, token2, handleToken1Select, handleToken2Select, isOver }) {
   return (
     <Stack
       spacing={2}
@@ -10,7 +10,7 @@ export default function TokenSelect({ token1, token2, handleToken1Select, handle
       width='200px'
       sx={{ mb: 2, textAlign: 'center' }}
     >
-      <FormControl fullWidth>
+      <FormControl fullWidth disabled={isOver}>
         <InputLabel id="token-1-select-label">Player 1</InputLabel>
         <Select
           value={token1.name}
@@ -33,7 +33,7 @@ export default function TokenSelect({ token1, token2, handleToken1Select, handle
         </Select>
       </FormControl>
 
-      <FormControl fullWidth>
+      <FormControl fullWidth disabled={isOver}>
         <InputLabel id="token-2-select-label">Player 2</InputLabel>
         <Select
           value={token2.name}
