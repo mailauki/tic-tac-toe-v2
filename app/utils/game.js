@@ -49,7 +49,7 @@ export default function Game() {
   }
   function handleToken2Select(event) {
     const newToken = tokens.find((token) => token.name === event.target.value)
-    const updateTokens = board.map(token => token === token1 ? newToken : token);
+    const updateTokens = board.map(token => token === token2 ? newToken : token);
     setBoard(updateTokens);
     setToken2(tokens.find((token) => token.name === event.target.value));
   }
