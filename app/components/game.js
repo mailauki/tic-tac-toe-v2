@@ -81,13 +81,13 @@ export default function Game() {
     if(isOver) {
       const winningToken = isWin ? board[isWin[0]] : null
       if(winningToken === token1) {
-        console.log("Congradulations Player 1 Wins!")
+        alert("Congradulations Player 1 Wins!")
       }
       else if(winningToken === token2) {
-        console.log("Congradulations Player 2 Wins!")
+        alert("Congradulations Player 2 Wins!")
       }
       else {
-        console.log("Cat's Game!")
+        alert("Cat's Game!")
       }
     }
   }, [board, isOver, isWin, token1, token2])
@@ -95,7 +95,7 @@ export default function Game() {
   return (
     <>
       <TokenSelect token1={token1} token2={token2} handleToken1Select={handleToken1Select} handleToken2Select={handleToken2Select} />
-      <Board board={board} handleAddToken={handleAddToken} />
+      <Board board={board} handleAddToken={handleAddToken} isOver={isOver} />
     </>
   )
 }

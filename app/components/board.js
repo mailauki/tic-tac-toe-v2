@@ -3,7 +3,7 @@ import styles from '../page.module.css'
 
 import { Box, Button } from '@mui/material'
 
-export default function Board({ board, handleAddToken }) {
+export default function Board({ board, handleAddToken, isOver }) {
   return (
     <Box className={styles.board}>
       {board.map((token, index) => 
@@ -12,14 +12,12 @@ export default function Board({ board, handleAddToken }) {
           component={Button}
           variant='contained'
           onClick={() => handleAddToken(index)}
+          disabled={isOver}
           className={styles.tile}
           sx={{
             borderRadius: 0,
             boxShadow: 'none',
-            // backgroundColor: 'primary.dark',
             '&:hover': {
-              // backgroundColor: 'primary.main',
-              // opacity: [0.9, 0.8, 0.7],
               boxShadow: 'none',
             }
           }}
