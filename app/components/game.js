@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { tokens } from '../utils/tokens'
 
@@ -38,8 +38,6 @@ export default function Game() {
   const p1Array = board.reduce((a,e,i) => e === token1 ? a.concat(i) : a, [])
   const p2Array = board.reduce((a,e,i) => e === token2 ? a.concat(i) : a, [])
 
-  console.log({p1Array})
-
   function handleToken1Select(event) {
     const newToken = tokens.find((token) => token.name === event.target.value)
     const updateTokens = board.map(token => token === token1 ? newToken : token);
@@ -52,10 +50,6 @@ export default function Game() {
     setBoard(updateTokens);
     setToken2(tokens.find((token) => token.name === event.target.value));
   }
-
-  // const player1tokens = board.filter((token) => token === token1)
-  // const player1tokens = board.indexOf(token1)
-  // console.log(player1tokens)
 
   function handleAddToken(index) {
     if(board[index].name === "") {
@@ -72,7 +66,31 @@ export default function Game() {
     }
   }
 
+  const isWin = winCombos.find((win) => {
+    if(win.map((i) => p1Array.includes(i)).every((el) => el === true)) {
+      return win
+    }
+    else if(win.map((i) => p2Array.includes(i)).every((el) => el === true)) {
+      return win
+    }
+  })
+  const isFull = turnCount === 9
+  const isOver = isWin || isFull
 
+  useEffect(() => {
+    if(isOver) {
+      const winningToken = isWin ? board[isWin[0]] : null
+      if(winningToken === token1) {
+        console.log("Congradulations Player 1 Wins!")
+      }
+      else if(winningToken === token2) {
+        console.log("Congradulations Player 2 Wins!")
+      }
+      else {
+        console.log("Cat's Game!")
+      }
+    }
+  }, [board, isOver, isWin, token1, token2])
 
   return (
     <>
