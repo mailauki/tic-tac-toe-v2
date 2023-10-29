@@ -21,6 +21,8 @@ export default function Game() {
   const [token2, setToken2] = useState(tokens[2])
 
   const [tokenColor, setTokenColor] = useState(null)
+  const [token1Color, setToken1Color] = useState('black')
+  const [token2Color, setToken2Color] = useState('black')
 
   const [alert, setAlert] = useState(null)
 
@@ -60,8 +62,13 @@ export default function Game() {
   }
 
   function handleTokenColor(event) {
-    // console.log(event.target.value)
     setTokenColor(event.target.value)
+  }
+  function handleToken1Color(event) {
+    setToken1Color(event.target.value)
+  }
+  function handleToken2Color(event) {
+    setToken2Color(event.target.value)
   }
 
   function handleAddToken(index) {
@@ -201,12 +208,18 @@ export default function Game() {
         pathname={pathname}
         tokenColor={tokenColor}
         handleTokenColor={handleTokenColor}
+        token1Color={token1Color}
+        handleToken1Color={handleToken1Color}
+        token2Color={token2Color}
+        handleToken2Color={handleToken2Color}
       />
       <Board
         board={board}
         handleAddToken={handleAddToken}
         isOver={isOver}
         tokenColor={tokenColor}
+        token1Color={token1Color}
+        token2Color={token2Color}
       />
       <Alert
         alert={alert}
