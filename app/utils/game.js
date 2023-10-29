@@ -218,6 +218,8 @@ export default function Game() {
         handleAddToken={handleAddToken}
         isOver={isOver}
         tokenColor={tokenColor}
+        token1={token1}
+        token2={token2}
         token1Color={token1Color}
         token2Color={token2Color}
       />
