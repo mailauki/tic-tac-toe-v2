@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 import { tokens } from './tokens'
 
@@ -10,6 +11,8 @@ import Alert from '../components/alert'
 import Header from '../components/header'
 
 export default function Game() {
+  const pathname = usePathname()
+
   const emptyBoard = [...Array(9)].map((token) => token = tokens[0])
   const [board, setBoard] = useState(emptyBoard)
   const newBoard = [...board]
@@ -104,12 +107,58 @@ export default function Game() {
     setAlert(null)
   }
 
+  const p1HasConsecutive = winCombos.filter((win) => {
+    if(win.map((i) => p1Array.includes(i)).filter((el) => el === true).length === 2) {
+      return win
+    }
+  })
+  const p2HasConsecutive = winCombos.filter((win) => {
+    if(win.map((i) => p2Array.includes(i)).filter((el) => el === true).length === 2) {
+      return win
+    }
+  })
+
+  const nextBestP1Move = p1HasConsecutive.map((win) => win.filter((i) => {
+    if(board[i].name === "") return i
+  })).flat()[0]
+  const nextBestP2Move = p2HasConsecutive.map((win) => win.filter((i) => {
+    if(board[i].name === "") return i
+  })).flat()[0]
+
+  const emptyIndexes = board.reduce((a,e,i) => e.name === "" ? a.concat(i) : a, [])
+
+  const randomMove = emptyIndexes[Math.floor(Math.random()*emptyIndexes.length)]
+
+  useEffect(() => {
+    if(pathname === "/1_player") {
+      if(turn === "player2" && !isOver) {
+        if(nextBestP2Move) {
+          newBoard.splice(nextBestP2Move, 1, token2)
+        } 
+        else if(nextBestP1Move) {
+          newBoard.splice(nextBestP1Move, 1, token2)
+        }
+        else {
+          newBoard.splice(randomMove, 1, token2)
+        }
+
+        if(turnCount < 9) setTurnCount(turnCount + 1)
+
+        setAlert("Loading...")
+        setTimeout(() => {
+          setAlert(null)
+          setBoard(newBoard)
+        }, 3000)
+      }
+    }
+  }, [isOver, newBoard, nextBestP1Move, nextBestP2Move, pathname, randomMove, token2, turn, turnCount])
+
   return (
     <>
       <Header wins={wins} />
       <TokenSelect token1={token1} token2={token2} handleToken1Select={handleToken1Select} handleToken2Select={handleToken2Select} isOver={isOver} />
       <Board board={board} handleAddToken={handleAddToken} isOver={isOver} />
-      <Alert alert={alert} handleAlertClose={handleAlertClose} isOver={isOver} />
+      <Alert alert={alert} handleAlertClose={handleAlertClose} isOver={isOver} loading={alert === "Loading..." ? true : false} />
     </>
   )
 }
