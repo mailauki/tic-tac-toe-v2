@@ -1,9 +1,10 @@
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material'
-
-import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNew'
 import Link from 'next/link'
 
-export default function Header({ handleReset, wins }) {
+import { AppBar, Box, Button, IconButton, Stack, Toolbar, Typography } from '@mui/material'
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNew'
+
+export default function Header({ handleReset, p1Wins, p2Wins, pathname }) {
   return (
     <AppBar position='fixed'>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -15,15 +16,26 @@ export default function Header({ handleReset, wins }) {
           <ArrowBackIcon />
         </IconButton>
 
-        <Button
-          onClick={handleReset}
-          variant='outlined'
-          color='inherit'
-        >
-          Reset
-        </Button>
+        <Box sx={{ position: 'absolute', left: 'calc(50% - 40.25px)' }}>
+          <Button
+            onClick={handleReset}
+            variant='outlined'
+            color='inherit'
+          >
+            Reset
+          </Button>
+        </Box>
 
-        <Typography variant='h6'>{wins}</Typography>
+        <Stack direction='row' spacing={2}>
+          <Stack justifyContent='center' alignItems='center'>
+            <Typography variant='h6'>{p1Wins}</Typography>
+            <Typography variant='caption'>{pathname === "/1_player" ? "Wins" : "Player 1 Wins"}</Typography>
+          </Stack>
+          <Stack justifyContent='center' alignItems='center'>
+            <Typography variant='h6'>{p2Wins}</Typography>
+            <Typography variant='caption'>{pathname === "/1_player" ? "Losses" : "Player 2 Wins"}</Typography>
+          </Stack>
+        </Stack>
       </Toolbar>
     </AppBar>
   )

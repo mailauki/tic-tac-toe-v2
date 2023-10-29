@@ -2,7 +2,10 @@ import { tokens } from '../utils/tokens'
 
 import { FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material'
 
-export default function TokenSelect({ token1, token2, handleToken1Select, handleToken2Select, isOver }) {
+export default function TokenSelect({ token1, token2, handleToken1Select, handleToken2Select, isOver, pathname }) {
+  const p1Label = pathname === "/1_player" ? "You" : "Player 1"
+  const p2Label = pathname === "/1_player" ? "Opponent" : "Player 2"
+
   return (
     <Stack
       spacing={2}
@@ -11,11 +14,11 @@ export default function TokenSelect({ token1, token2, handleToken1Select, handle
       sx={{ mb: 2, textAlign: 'center' }}
     >
       <FormControl fullWidth disabled={isOver}>
-        <InputLabel id="token-1-select-label">Player 1</InputLabel>
+        <InputLabel id="token-1-select-label">{p1Label}</InputLabel>
         <Select
           value={token1.name}
           onChange={handleToken1Select}
-          label="Player 1"
+          label={p1Label}
         >
           {tokens.map((token) => 
             <MenuItem
@@ -34,11 +37,11 @@ export default function TokenSelect({ token1, token2, handleToken1Select, handle
       </FormControl>
 
       <FormControl fullWidth disabled={isOver}>
-        <InputLabel id="token-2-select-label">Player 2</InputLabel>
+        <InputLabel id="token-2-select-label">{p2Label}</InputLabel>
         <Select
           value={token2.name}
           onChange={handleToken2Select}
-          label="Player 2"
+          label={p2Label}
         >
           {tokens.map((token) => 
             <MenuItem

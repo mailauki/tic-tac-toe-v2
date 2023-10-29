@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 import { tokens } from './tokens'
@@ -15,7 +15,7 @@ export default function Game() {
 
   const emptyBoard = [...Array(9)].map((token) => token = tokens[0])
   const [board, setBoard] = useState(emptyBoard)
-  const newBoard = [...board]
+  const newBoard = useMemo(() => [...board], [board])
 
   const [token1, setToken1] = useState(tokens[1])
   const [token2, setToken2] = useState(tokens[2])
@@ -37,7 +37,6 @@ export default function Game() {
   ]
 
   // tally number of wins
-  const [wins, setWins] = useState(0)
   const [p1Wins, setP1Wins] = useState(0)
   const [p2Wins, setP2Wins] = useState(0)
 
@@ -84,15 +83,26 @@ export default function Game() {
   })
   const isFull = turnCount === 9
   const isOver = isWin || isFull
+  
+  const winningToken = isWin ? board[isWin[0]] : null
 
   useEffect(() => {
     if(isOver) {
-      const winningToken = isWin ? board[isWin[0]] : null
-      if(winningToken === token1) {
-        setAlert("Congradulations Player 1 Wins!")
+      if(pathname === "/1_player") {
+        if(winningToken === token1) {
+          setAlert("Congradulations You Win!")
+        }
+        else if(winningToken === token2) {
+          setAlert("Sorry You Lose.")
+        }
       }
-      else if(winningToken === token2) {
-        setAlert("Congradulations Player 2 Wins!")
+      else if(pathname === "/2_player") {
+        if(winningToken === token1) {
+          setAlert("Congradulations Player 1 Wins!")
+        }
+        else if(winningToken === token2) {
+          setAlert("Congradulations Player 2 Wins!")
+        }
       }
       else {
         setAlert("Cat's Game!")
@@ -101,7 +111,7 @@ export default function Game() {
     else {
       setAlert(null)
     }
-  }, [board, isOver, isWin, token1, token2])
+  }, [board, isOver, isWin, p1Wins, p2Wins, pathname, token1, token2, winningToken])
 
   function handleAlertClose() {
     setAlert(null)
@@ -130,30 +140,37 @@ export default function Game() {
   const randomMove = emptyIndexes[Math.floor(Math.random()*emptyIndexes.length)]
 
   useEffect(() => {
-    if(pathname === "/1_player") {
-      if(turn === "player2" && !isOver) {
-        if(nextBestP2Move) {
-          newBoard.splice(nextBestP2Move, 1, token2)
-        } 
-        else if(nextBestP1Move) {
-          newBoard.splice(nextBestP1Move, 1, token2)
-        }
-        else {
-          newBoard.splice(randomMove, 1, token2)
-        }
-
-        if(turnCount < 9) setTurnCount(turnCount + 1)
-
-        setAlert("Loading...")
-        setTimeout(() => {
-          setAlert(null)
-          setBoard(newBoard)
-        }, 3000)
+    if(pathname === "/1_player" && turn === "player2" && !isOver) {
+      if(nextBestP2Move) {
+        newBoard.splice(nextBestP2Move, 1, token2)
+      } 
+      else if(nextBestP1Move) {
+        newBoard.splice(nextBestP1Move, 1, token2)
       }
+      else {
+        newBoard.splice(randomMove, 1, token2)
+      }
+
+      if(turnCount < 9) setTurnCount(turnCount + 1)
+
+      setAlert("Loading...")
+      setTimeout(() => {
+        setAlert(null)
+        setBoard(newBoard)
+      }, 3000)
     }
   }, [isOver, newBoard, nextBestP1Move, nextBestP2Move, pathname, randomMove, token2, turn, turnCount])
 
   function handleReset() {
+    if(isWin) {
+      if(winningToken === token1) {
+        setP1Wins(p1Wins+1)
+      }
+      else if(winningToken === token2) {
+        setP2Wins(p2Wins+1)
+      }
+    }
+
     setBoard(emptyBoard)
     setTurnCount(0)
     setAlert(null)
@@ -161,10 +178,32 @@ export default function Game() {
 
   return (
     <>
-      <Header handleReset={handleReset} wins={wins} />
-      <TokenSelect token1={token1} token2={token2} handleToken1Select={handleToken1Select} handleToken2Select={handleToken2Select} isOver={isOver} />
-      <Board board={board} handleAddToken={handleAddToken} isOver={isOver} />
-      <Alert alert={alert} handleAlertClose={handleAlertClose} isOver={isOver} loading={alert === "Loading..." ? true : false} />
+      <Header
+        handleReset={handleReset}
+        p1Wins={p1Wins}
+        p2Wins={p2Wins}
+        pathname={pathname}
+      />
+      <TokenSelect
+        token1={token1}
+        token2={token2}
+        handleToken1Select={handleToken1Select}
+        handleToken2Select={handleToken2Select}
+        isOver={isOver}
+        pathname={pathname}
+      />
+      <Board
+        board={board}
+        handleAddToken={handleAddToken}
+        isOver={isOver}
+      />
+      <Alert
+        alert={alert}
+        handleAlertClose={handleAlertClose}
+        isOver={isOver}
+        loading={alert === "Loading..." ? true : false}
+        pathname={pathname}
+      />
     </>
   )
 }
