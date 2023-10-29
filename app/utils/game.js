@@ -224,8 +224,10 @@ export default function Game() {
       <Alert
         alert={alert}
         handleAlertClose={handleAlertClose}
+        handleReset={handleReset}
         isOver={isOver}
         loading={alert === "Loading..." ? true : false}
+        error={alert === "Can't move there!" ? true : false}
         pathname={pathname}
       />
     </>
