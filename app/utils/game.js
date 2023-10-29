@@ -95,6 +95,9 @@ export default function Game() {
         else if(winningToken === token2) {
           setAlert("Sorry You Lose.")
         }
+        else {
+          setAlert("Cat's Game!")
+        }
       }
       else if(pathname === "/2_player") {
         if(winningToken === token1) {
@@ -103,15 +106,22 @@ export default function Game() {
         else if(winningToken === token2) {
           setAlert("Congradulations Player 2 Wins!")
         }
-      }
-      else {
-        setAlert("Cat's Game!")
+        else {
+          setAlert("Cat's Game!")
+        }
       }
     }
     else {
       setAlert(null)
     }
   }, [board, isOver, isWin, p1Wins, p2Wins, pathname, token1, token2, winningToken])
+
+  useMemo(() => {
+    if(alert) {
+      if(winningToken === token1) setP1Wins(p1Wins+1)
+      else if(winningToken === token2) setP2Wins(p2Wins+1)
+    }
+  }, [alert, token1, token2, winningToken])
 
   function handleAlertClose() {
     setAlert(null)
@@ -162,15 +172,6 @@ export default function Game() {
   }, [isOver, newBoard, nextBestP1Move, nextBestP2Move, pathname, randomMove, token2, turn, turnCount])
 
   function handleReset() {
-    if(isWin) {
-      if(winningToken === token1) {
-        setP1Wins(p1Wins+1)
-      }
-      else if(winningToken === token2) {
-        setP2Wins(p2Wins+1)
-      }
-    }
-
     setBoard(emptyBoard)
     setTurnCount(0)
     setAlert(null)
