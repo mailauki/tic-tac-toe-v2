@@ -5,6 +5,15 @@
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
+  
+  --blue-green: linear-gradient(45deg, cornflowerblue 25%, yellowgreen);
+  --orange-pink: linear-gradient(45deg, orange 25%, hotpink);
+  --coral: coral;
+  --purple: blueviolet;
+  --teal: teal;
+  --yellow: rgb(255, 212, 0);
+  --red: rgb(212, 0, 0);
+
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -73,7 +82,7 @@
   }
 }
 
-* {
+/* * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -104,4 +113,4 @@ a {
   html {
     color-scheme: dark;
   }
-}
+} */

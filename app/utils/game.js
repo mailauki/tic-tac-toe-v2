@@ -20,6 +20,8 @@ export default function Game() {
   const [token1, setToken1] = useState(tokens[1])
   const [token2, setToken2] = useState(tokens[2])
 
+  const [tokenColor, setTokenColor] = useState(null)
+
   const [alert, setAlert] = useState(null)
 
   const [turnCount, setTurnCount] = useState(0)
@@ -55,6 +57,11 @@ export default function Game() {
     const updateTokens = board.map(token => token === token2 ? newToken : token);
     setBoard(updateTokens);
     setToken2(tokens.find((token) => token.name === event.target.value));
+  }
+
+  function handleTokenColor(event) {
+    // console.log(event.target.value)
+    setTokenColor(event.target.value)
   }
 
   function handleAddToken(index) {
@@ -192,11 +199,14 @@ export default function Game() {
         handleToken2Select={handleToken2Select}
         isOver={isOver}
         pathname={pathname}
+        tokenColor={tokenColor}
+        handleTokenColor={handleTokenColor}
       />
       <Board
         board={board}
         handleAddToken={handleAddToken}
         isOver={isOver}
+        tokenColor={tokenColor}
       />
       <Alert
         alert={alert}

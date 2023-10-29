@@ -34,20 +34,27 @@
 }
 
 .token_color_clip {
-  /* background: #EEE; */
-  /* background: linear-gradient(45deg, cornflowerblue 25%, yellowgreen); */
+  /* background: #555; */
   background-clip: text;
-  color: transparent;
   -webkit-background-clip: text;
+  color: transparent;
   -webkit-text-fill-color: transparent;
 }
 
 .blue_green {
   background: linear-gradient(45deg, cornflowerblue 25%, yellowgreen);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .orange_pink {
   background: linear-gradient(45deg, orange 25%, hotpink);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .center {
