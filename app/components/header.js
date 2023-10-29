@@ -1,9 +1,9 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material'
+import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material'
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBackIosNew'
 import Link from 'next/link'
 
-export default function Header({ wins }) {
+export default function Header({ handleReset, wins }) {
   return (
     <AppBar position='fixed'>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -14,6 +14,15 @@ export default function Header({ wins }) {
         >
           <ArrowBackIcon />
         </IconButton>
+
+        <Button
+          onClick={handleReset}
+          variant='outlined'
+          color='inherit'
+        >
+          Reset
+        </Button>
+
         <Typography variant='h6'>{wins}</Typography>
       </Toolbar>
     </AppBar>

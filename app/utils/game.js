@@ -153,9 +153,15 @@ export default function Game() {
     }
   }, [isOver, newBoard, nextBestP1Move, nextBestP2Move, pathname, randomMove, token2, turn, turnCount])
 
+  function handleReset() {
+    setBoard(emptyBoard)
+    setTurnCount(0)
+    setAlert(null)
+  }
+
   return (
     <>
-      <Header wins={wins} />
+      <Header handleReset={handleReset} wins={wins} />
       <TokenSelect token1={token1} token2={token2} handleToken1Select={handleToken1Select} handleToken2Select={handleToken2Select} isOver={isOver} />
       <Board board={board} handleAddToken={handleAddToken} isOver={isOver} />
       <Alert alert={alert} handleAlertClose={handleAlertClose} isOver={isOver} loading={alert === "Loading..." ? true : false} />
