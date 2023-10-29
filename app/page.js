@@ -28,7 +28,6 @@ export default function Home() {
             size='large'
             component={Link}
             href='/2_player'
-            disabled
           >
             2 Players
           </Button>
