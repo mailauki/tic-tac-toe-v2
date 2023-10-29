@@ -1,8 +1,12 @@
+import { useState } from 'react'
+
 import { tokens } from '../utils/tokens'
 
-import { FormControl, InputLabel, MenuItem, Select, Stack, ToggleButton, ToggleButtonGroup } from '@mui/material'
-
 import { styled } from '@mui/material/styles'
+
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, FormControlLabel, FormLabel, Input, InputLabel, Menu, MenuItem, MenuList, Select, Stack, Switch, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material'
+
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   '& .MuiToggleButtonGroup-grouped': {
@@ -22,7 +26,6 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       padding: 0
     },
   },
-  // border: 0,
   display: 'grid',
   'grid-template-columns': 'repeat(3, 40px)',
   'grid-template-rows': 'repeat(3, 40px)'
@@ -30,151 +33,124 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 
 const colors = ["none", "blue-green", "orange-pink", "coral", "purple", "yellow", "teal", "red", "blue"]
 
-export default function TokenSelect({ token1, token2, handleToken1Select, handleToken2Select, isOver, pathname, tokenColor, handleTokenColor, token1Color, handleToken1Color, token2Color, handleToken2Color }) {
+export default function TokenSelect({ token1, token2, handleToken1Select, handleToken2Select, isOver, pathname, tokenColor, handleTokenColor, token1Color, handleToken1Color, token2Color, handleToken2Color, token1ColorOn, handleToken1ColorSwitch, token2ColorOn, handleToken2ColorSwitch, tokenEditOpen, handleTokenEdit }) {
   const p1Label = pathname === "/1_player" ? "You" : "Player 1"
   const p2Label = pathname === "/1_player" ? "Opponent" : "Player 2"
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  function handleEditOpen(event) {
+    setAnchorEl(event.currentTarget)
+    handleTokenEdit()
+  }
 
   return (
-    <Stack spacing={2} direction='row'>
-      <Stack
-        // justifyContent='center'
-        // alignItems='center'
-        width={200}
-      >
-        <Stack
-          spacing={2}
-          direction='row'
-          width={200}
-          sx={{ mb: 2, textAlign: 'center' }}
-        >
-          <FormControl fullWidth disabled={isOver}>
-            <InputLabel id="token-1-select-label">{p1Label}</InputLabel>
-            <Select
-              value={token1.name}
-              onChange={handleToken1Select}
-              label={p1Label}
-            >
-              {tokens.map((token) => 
-                <MenuItem
-                  key={`1_${token.name}`}
-                  value={token.name}
-                  sx={{
-                    display: token.icon === 'ㅤ' ? 'none' : '',
-                    justifyContent: 'center'
-                  }}
-                  disabled={token.name === token2.name}
-                >
-                  {token.icon}
-                </MenuItem>
-              )}
-            </Select>
-          </FormControl>
+    <Box sx={{ m: 2 }}>
+      <Button onClick={handleEditOpen}>Edit Player Tokens</Button>
 
-          <FormControl fullWidth disabled={isOver}>
-            <InputLabel id="token-2-select-label">{p2Label}</InputLabel>
-            <Select
-              value={token2.name}
-              onChange={handleToken2Select}
-              label={p2Label}
-            >
-              {tokens.map((token) => 
-                <MenuItem
-                  key={`1_${token.name}`}
-                  value={token.name}
-                  sx={{
-                    display: token.icon === 'ㅤ' ? 'none' : '',
-                    justifyContent: 'center'
-                  }}
-                  disabled={token.name === token1.name}
-                >
-                  {token.icon}
-                </MenuItem>
-              )}
-            </Select>
-          </FormControl>
-
-          {/* <FormControl fullWidth disabled={isOver}>
-            <InputLabel id="token-2-select-label">Token Color</InputLabel>
-            <Select
-              value={tokenColor}
-              onChange={handleTokenColor}
-              label='TokenColor'
-            >
-              {colors.map((color) => 
-                <MenuItem
-                  key={`${color}`}
-                  value={color}
-                  sx={{ 
-                    justifyContent: 'center',
-                    background: `var(--${color})`,
-                    '&:hover': {
-                      // background: color !== 'none' ? alpha('rgb(0, 0, 0)', 0.5) : ''
-                      background: `var(--${color})`,
-                      opacity: 0.5
-                    }
-                  }}
-                >
-                  ㅤ
-                </MenuItem>
-              )}
-            </Select>
-          </FormControl> */}
-        </Stack>
-
-        <Stack
-          spacing={2}
-          direction='row'
-          justifyContent='space-evenly'
-          // width={200}
-          sx={{ mb: 2, textAlign: 'center' }}
-        >
-          <input
-            type='color'
-            value={token1Color}
-            onChange={handleToken1Color}
-            style={{ width: 40, height: 40 }}
-            disabled={isOver}
-          />
-          {console.log(token1Color)}
-
-          <input
-            type='color'
-            value={token2Color}
-            onChange={handleToken2Color}
-            style={{ width: 40, height: 40 }}
-            disabled={isOver}
-          />
-          {console.log(token2Color)}
-        </Stack>
-      </Stack>
-
-      <StyledToggleButtonGroup
-        value={tokenColor}
-        exclusive
-        onChange={handleTokenColor}
+      <Menu
+        open={tokenEditOpen}
+        onClose={handleTokenEdit}
         disabled={isOver}
+        anchorEl={anchorEl}
       >
-        {colors.map((color) =>
-          <ToggleButton
-            key={color}
-            value={color}
-            sx={{
-              background: `var(--${color})`,
-              '&.Mui-selected': {
-                background: `var(--${color})`,
-                opacity: 0.5
-              },
-              '&:hover': {
-                background: `var(--${color})`,
-                opacity: 0.7
-              },
-              fontSize: '2rem'
-            }}
+        <Stack direction='row' spacing={2} sx={{ p: 2 }}>
+          <Stack direction='column' spacing={2} width={100}>
+            <FormControl fullWidth disabled={isOver}>
+              <InputLabel id="token-1-select-label">{p1Label}</InputLabel>
+              <Select
+                value={token1.name}
+                onChange={handleToken1Select}
+                label={p1Label}
+              >
+                {tokens.map((token) => 
+                  <MenuItem
+                    key={`1_${token.name}`}
+                    value={token.name}
+                    sx={{
+                      display: token.icon === 'ㅤ' ? 'none' : '',
+                      justifyContent: 'center'
+                    }}
+                    disabled={token.name === token2.name}
+                  >
+                    {token.icon}
+                  </MenuItem>
+                )}
+              </Select>
+            </FormControl>
+
+            <TextField
+              type='color'
+              value={token1Color}
+              onChange={handleToken1Color}
+              disabled={isOver}
+              label='P1 Color'
+              fullWidth
+            />
+          </Stack>
+        
+          <Stack direction='column' spacing={2} width={100}>
+            <FormControl fullWidth disabled={isOver}>
+              <InputLabel id="token-2-select-label">{p2Label}</InputLabel>
+              <Select
+                value={token2.name}
+                onChange={handleToken2Select}
+                label={p2Label}
+              >
+                {tokens.map((token) => 
+                  <MenuItem
+                    key={`2_${token.name}`}
+                    value={token.name}
+                    sx={{
+                      display: token.icon === 'ㅤ' ? 'none' : '',
+                      justifyContent: 'center'
+                    }}
+                    disabled={token.name === token1.name}
+                  >
+                    {token.icon}
+                  </MenuItem>
+                )}
+              </Select>
+            </FormControl>
+
+            <TextField
+              type='color'
+              value={token2Color}
+              onChange={handleToken2Color}
+              disabled={isOver}
+              label='P2 Color'
+              fullWidth
+            />
+          </Stack>
+
+          <StyledToggleButtonGroup
+            value={tokenColor}
+            exclusive
+            onChange={handleTokenColor}
+            disabled={isOver}
           >
-            {tokenColor === color ? '•' : 'ㅤ'}
-          </ToggleButton>
-        )}
-      </StyledToggleButtonGroup>
-    </Stack>
+            {colors.map((color) =>
+              <ToggleButton
+                key={color}
+                value={color}
+                sx={{
+                  background: `var(--${color})`,
+                  '&.Mui-selected': {
+                    background: `var(--${color})`,
+                    opacity: 0.5
+                  },
+                  '&:hover': {
+                    background: `var(--${color})`,
+                    opacity: 0.7
+                  },
+                  fontSize: '2rem'
+                }}
+              >
+                {tokenColor === color ? '•' : 'ㅤ'}
+              </ToggleButton>
+            )}
+          </StyledToggleButtonGroup>
+        </Stack>
+      </Menu>
+    </Box>
   )
 }

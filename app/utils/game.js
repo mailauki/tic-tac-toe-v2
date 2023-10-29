@@ -23,6 +23,9 @@ export default function Game() {
   const [tokenColor, setTokenColor] = useState(null)
   const [token1Color, setToken1Color] = useState('black')
   const [token2Color, setToken2Color] = useState('black')
+  const [token1ColorOn, setToken1ColorOn] = useState(false)
+  const [token2ColorOn, setToken2ColorOn] = useState(false)
+  const [tokenEditOpen, setTokenEditOpen] = useState(false)
 
   const [alert, setAlert] = useState(null)
 
@@ -61,14 +64,26 @@ export default function Game() {
     setToken2(tokens.find((token) => token.name === event.target.value));
   }
 
-  function handleTokenColor(event) {
-    setTokenColor(event.target.value)
+  function handleTokenColor(event, newValue) {
+    console.log('event.target.value', event.target.value)
+    console.log({newValue})
+    setTokenColor(newValue)
   }
   function handleToken1Color(event) {
     setToken1Color(event.target.value)
   }
   function handleToken2Color(event) {
     setToken2Color(event.target.value)
+  }
+
+  function handleToken1ColorSwitch() {
+    setToken1ColorOn(!token1ColorOn)
+  }
+  function handleToken2ColorSwitch() {
+    setToken2ColorOn(!token2ColorOn)
+  }
+  function handleTokenEdit() {
+    setTokenEditOpen(!tokenEditOpen)
   }
 
   function handleAddToken(index) {
@@ -212,6 +227,12 @@ export default function Game() {
         handleToken1Color={handleToken1Color}
         token2Color={token2Color}
         handleToken2Color={handleToken2Color}
+        token1ColorOn={token1ColorOn}
+        handleToken1ColorSwitch={handleToken1ColorSwitch}
+        token2ColorOn={token2ColorOn}
+        handleToken2ColorSwitch={handleToken2ColorSwitch}
+        tokenEditOpen={tokenEditOpen}
+        handleTokenEdit={handleTokenEdit}
       />
       <Board
         board={board}
