@@ -4,11 +4,9 @@ import { tokens } from '../utils/tokens'
 
 import { styled } from '@mui/material/styles'
 
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, FormControlLabel, FormLabel, Input, InputLabel, Menu, MenuItem, MenuList, Select, Stack, Switch, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, Menu, MenuItem, Select, Stack, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material'
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-
-const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(() => ({
   '& .MuiToggleButtonGroup-grouped': {
     width: 40,
     height: 40,
@@ -33,7 +31,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 
 const colors = ["none", "blue-green", "orange-pink", "coral", "purple", "yellow", "teal", "red", "blue"]
 
-export default function TokenSelect({ token1, token2, handleToken1Select, handleToken2Select, isOver, pathname, tokenColor, handleTokenColor, token1Color, handleToken1Color, token2Color, handleToken2Color, token1ColorOn, handleToken1ColorSwitch, token2ColorOn, handleToken2ColorSwitch, tokenEditOpen, handleTokenEdit }) {
+export default function TokenSelect({ token1, token2, handleToken1Select, handleToken2Select, isOver, pathname, tokenColor, handleTokenColor, token1Color, handleToken1Color, token2Color, handleToken2Color, tokenEditOpen, handleTokenEdit }) {
   const p1Label = pathname === "/1_player" ? "You" : "Player 1"
   const p2Label = pathname === "/1_player" ? "Opponent" : "Player 2"
   const [anchorEl, setAnchorEl] = useState(null)
@@ -45,7 +43,9 @@ export default function TokenSelect({ token1, token2, handleToken1Select, handle
 
   return (
     <Box sx={{ m: 2 }}>
-      <Button onClick={handleEditOpen}>Edit Player Tokens</Button>
+      <Button onClick={handleEditOpen} disabled={isOver}>
+        Edit Player Tokens
+      </Button>
 
       <Menu
         open={tokenEditOpen}
@@ -55,8 +55,12 @@ export default function TokenSelect({ token1, token2, handleToken1Select, handle
       >
         <Stack direction='row' spacing={2} sx={{ p: 2 }}>
           <Stack direction='column' spacing={2} width={100}>
-            <FormControl fullWidth disabled={isOver}>
-              <InputLabel id="token-1-select-label">{p1Label}</InputLabel>
+            <FormControl
+              fullWidth
+              disabled={isOver}
+              sx={{ textAlign: 'center' }}
+            >
+              <InputLabel id='token-1-select-label'>{p1Label}</InputLabel>
               <Select
                 value={token1.name}
                 onChange={handleToken1Select}
@@ -89,8 +93,12 @@ export default function TokenSelect({ token1, token2, handleToken1Select, handle
           </Stack>
         
           <Stack direction='column' spacing={2} width={100}>
-            <FormControl fullWidth disabled={isOver}>
-              <InputLabel id="token-2-select-label">{p2Label}</InputLabel>
+            <FormControl
+              fullWidth
+              disabled={isOver}
+              sx={{ textAlign: 'center' }}
+            >
+              <InputLabel id='token-2-select-label'>{p2Label}</InputLabel>
               <Select
                 value={token2.name}
                 onChange={handleToken2Select}

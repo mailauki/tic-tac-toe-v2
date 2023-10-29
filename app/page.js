@@ -12,13 +12,14 @@ export default function Home() {
 
       <div className={styles.center}>
         <Stack spacing={4} alignItems='center'>
-          <Typography variant='h1'>Tic-Tac-Toe</Typography>
+          <Typography sx={{ typography: { sm: 'h1', xs: 'h3' } }}>Tic-Tac-Toe</Typography>
 
           <Button
             variant='contained'
             size='large'
             component={Link}
             href='/1_player'
+            fullWidth
           >
             1 Player
           </Button>
@@ -28,6 +29,7 @@ export default function Home() {
             size='large'
             component={Link}
             href='/2_player'
+            fullWidth
           >
             2 Players
           </Button>

@@ -24,33 +24,8 @@
   height: 200px;
 }
 
-.token {
-  /* font-size: 14vh; */
-  font-size: 8rem;
-  /* position: absolute; */
-  /* padding: 0 2rem; */
-  margin: 0;
-  text-align: center;
-}
-
 .token_color_clip {
   /* background: #555; */
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
-
-.blue_green {
-  background: linear-gradient(45deg, cornflowerblue 25%, yellowgreen);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
-
-.orange_pink {
-  background: linear-gradient(45deg, orange 25%, hotpink);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -96,17 +71,6 @@
   position: relative;
 }
 
-@media (orientation: portrait) {
-  .board {
-    /* width: 100vw;
-    height: 100vw; */
-  }
-
-  /* .token {
-    font-size: 14vw;
-  } */
-}
-
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
@@ -127,18 +91,9 @@
 
 /* Mobile */
 @media (max-width: 700px) {
-  /* .board {
-    width: 100vw;
-    height: 100vw;
-  } */
-
   .tile {
     width: 30vw;
     height: 30vw;
-  }
-
-  .token {
-    font-size: 20vw;
   }
   
   .content {

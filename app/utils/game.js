@@ -23,8 +23,6 @@ export default function Game() {
   const [tokenColor, setTokenColor] = useState(null)
   const [token1Color, setToken1Color] = useState('black')
   const [token2Color, setToken2Color] = useState('black')
-  const [token1ColorOn, setToken1ColorOn] = useState(false)
-  const [token2ColorOn, setToken2ColorOn] = useState(false)
   const [tokenEditOpen, setTokenEditOpen] = useState(false)
 
   const [alert, setAlert] = useState(null)
@@ -56,34 +54,31 @@ export default function Game() {
     const updateTokens = board.map(token => token === token1 ? newToken : token);
     setBoard(updateTokens);
     setToken1(newToken);
+    handleTokenEdit();
   }
   function handleToken2Select(event) {
     const newToken = tokens.find((token) => token.name === event.target.value)
     const updateTokens = board.map(token => token === token2 ? newToken : token);
     setBoard(updateTokens);
     setToken2(tokens.find((token) => token.name === event.target.value));
+    handleTokenEdit();
   }
 
   function handleTokenColor(event, newValue) {
-    console.log('event.target.value', event.target.value)
-    console.log({newValue})
-    setTokenColor(newValue)
+    setTokenColor(newValue);
+    handleTokenEdit();
   }
   function handleToken1Color(event) {
-    setToken1Color(event.target.value)
+    setToken1Color(event.target.value);
+    handleTokenEdit();
   }
   function handleToken2Color(event) {
-    setToken2Color(event.target.value)
+    setToken2Color(event.target.value);
+    handleTokenEdit();
   }
 
-  function handleToken1ColorSwitch() {
-    setToken1ColorOn(!token1ColorOn)
-  }
-  function handleToken2ColorSwitch() {
-    setToken2ColorOn(!token2ColorOn)
-  }
   function handleTokenEdit() {
-    setTokenEditOpen(!tokenEditOpen)
+    setTokenEditOpen(!tokenEditOpen);
   }
 
   function handleAddToken(index) {
@@ -227,10 +222,6 @@ export default function Game() {
         handleToken1Color={handleToken1Color}
         token2Color={token2Color}
         handleToken2Color={handleToken2Color}
-        token1ColorOn={token1ColorOn}
-        handleToken1ColorSwitch={handleToken1ColorSwitch}
-        token2ColorOn={token2ColorOn}
-        handleToken2ColorSwitch={handleToken2ColorSwitch}
         tokenEditOpen={tokenEditOpen}
         handleTokenEdit={handleTokenEdit}
       />
